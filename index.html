@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 23rd Birthday Nireeksha!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff6b8b;
+            --secondary-pink: #ff4757;
+            --pastel-blue: #7cedf2;
+            --pastel-yellow: #f1f2b6;
+            --dark-text: #2f3542;
+            --card-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ffeef2, #eef9ff, #fff5e6, #f3e8ff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Canvas Overlay for Confetti and Hearts */
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Main Container Card */
+        .card-container {
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(255, 107, 139, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            width: 90%;
+            max-width: 500px;
+            padding: 40px 30px;
+            text-align: center;
+            z-index: 5;
+            position: relative;
+            transform: translateY(0px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .card-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 107, 139, 0.25);
+        }
+
+        /* Portrait Photo Frame */
+        .photo-frame-outer {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Decorative Pulsing Border matching pink hearts */
+        .photo-frame-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            padding: 8px;
+            background: linear-gradient(45deg, var(--primary-pink), #ff4757, #ff9f43, var(--primary-pink));
+            background-size: 300% 300%;
+            animation: rotateGlow 4s linear infinite, bounceFrame 6s ease-in-out infinite;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+        }
+
+        @keyframes rotateGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes bounceFrame {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            display: block;
+        }
+
+        /* Mini-Hearts floating around frame on hover */
+        .frame-heart {
+            position: absolute;
+            color: var(--secondary-pink);
+            font-size: 20px;
+            pointer-events: none;
+            opacity: 0;
+            animation: floatMiniHeart 1.5s ease-out infinite;
+        }
+
+        @keyframes floatMiniHeart {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translate(var(--mx), var(--my)) scale(1.2); opacity: 0; }
+        }
+
+        /* Festive Typography */
+        h1.greetings {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: var(--secondary-pink);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
+            animation: pulseText 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseText {
+            0% { transform: scale(0.98); }
+            100% { transform: scale(1.02); }
+        }
+
+        h2.name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark-text);
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-pink), var(--secondary-pink));
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+            margin-bottom: 25px;
+        }
+
+        /* Interactive Cake CSS styling */
+        .cake-container {
+            position: relative;
+            width: 120px;
+            height: 100px;
+            margin: 20px auto 10px;
+            cursor: pointer;
+        }
+
+        .cake-tier {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fbc531;
+            border-radius: 6px 6px 0 0;
+            box-shadow: inset 0 6px 0 rgba(255,255,255,0.3);
+        }
+
+        .tier-bottom {
+            width: 100px;
+            height: 35px;
+            bottom: 0;
+            background: #ea8685;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tier-top {
+            width: 70px;
+            height: 30px;
+            bottom: 35px;
+            background: #f7d794;
+        }
+
+        .icing {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 8px 8px 0 0;
+            top: 0;
+        }
+
+        .candle {
+            position: absolute;
+            width: 8px;
+            height: 25px;
+            background: linear-gradient(to right, #4cd137, #44bd32);
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 65px;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .flame {
+            position: absolute;
+            width: 12px;
+            height: 18px;
+            background: #e1b12c;
+            border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 90px;
+            animation: flicker 0.6s ease-in-out infinite alternate;
+            box-shadow: 0 0 10px #fbc531, 0 0 20px #e1b12c;
+            transition: opacity 0.5s ease;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(0.9) rotate(-2deg); }
+            100% { transform: translateX(-50%) scale(1.1) rotate(2deg); }
+        }
+
+        .cake-instruction {
+            font-size: 0.8rem;
+            color: #718093;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        /* Dynamic Floating Balloons Structure */
+        .balloon-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 60px;
+            height: 75px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            animation: floatUp 12s linear infinite;
+            opacity: 0.85;
+        }
+
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 8px solid currentColor;
+        }
+
+        .balloon-string {
+            position: absolute;
+            width: 2px;
+            height: 80px;
+            background-color: rgba(0, 0, 0, 0.15);
+            bottom: -88px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); left: var(--start-x); }
+            100% { transform: translateY(-120vh) rotate(var(--rot)); left: var(--end-x); }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="balloon-container" id="balloonBox"></div>
+
+    <div class="card-container">
+        <div class="photo-frame-outer" id="portraitArea">
+            <div class="photo-frame-inner">
+                <img src="nireeksha.jpg" alt="Nireeksha Portrait" class="profile-photo" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400';">
+            </div>
+        </div>
+
+        <h1 class="greetings">Happy 23rd Birthday</h1>
+        <h2 class="name">Nireeksha</h2>
+        <div class="age-badge">Level 23 Unlocked!</div>
+
+        <div class="cake-container" id="birthdayCake" onclick="extinguishCandle()">
+            <div class="flame" id="cakeFlame"></div>
+            <div class="candle"></div>
+            <div class="cake-tier tier-top"><div class="icing"></div></div>
+            <div class="cake-tier tier-bottom"><div class="icing"></div></div>
+        </div>
+        <p class="cake-instruction" id="candleStatus">Click the flame to make a wish!</p>
+    </div>
+
+    <script>
+        /* 1. Global Interactive Setup */
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationFrameId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        /* 2. Particle Class Design (Confetti & Hearts) */
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * -canvas.height;
+                this.size = Math.random() * 8 + 4;
+                this.color = ['#ff6b8b', '#ff4757', '#7cedf2', '#f1f2b6', '#32ff7e', '#7d5fff'][Math.floor(Math.random() * 6)];
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+                this.isHeart = Math.random() > 0.85;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+
+                if (this.isHeart) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, 0, 0, this.size);
+                    ctx.bezierCurveTo(this.size, 0, this.size/2, -this.size/2, 0, 0);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                }
+                ctx.restore();
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                    this.speedY = Math.random() * 3 + 2;
+                }
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 120; i++) {
+                particles.push(new Confetti());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            animationFrameId = requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        /* 3. Generating Floating Decorative Balloons */
+        const balloonColors = ['#ff6b8b', '#7cedf2', '#f1f2b6', '#ff9f43', '#9c88ff', '#4cd137'];
+        const balloonBox = document.getElementById('balloonBox');
+
+        function generateBalloons() {
+            for (let i = 0; i < 15; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                
+                const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                balloon.style.backgroundColor = color;
+                balloon.style.color = color;
+                
+                const startX = Math.random() * 100 + 'vw';
+                const endX = (Math.random() * 40 - 20) + 50 + 'vw';
+                const rotation = (Math.random() * 40 - 20) + 'deg';
+                const delay = Math.random() * 8 + 's';
+                const duration = Math.random() * 6 + 9 + 's';
+
+                balloon.style.setProperty('--start-x', startX);
+                balloon.style.setProperty('--end-x', endX);
+                balloon.style.setProperty('--rot', rotation);
+                balloon.style.animationDelay = delay;
+                balloon.style.animationDuration = duration;
+
+                const string = document.createElement('div');
+                string.className = 'balloon-string';
+                balloon.appendChild(string);
+                balloonBox.appendChild(balloon);
+            }
+        }
+        generateBalloons();
+
+        /* 4. Interactive Portrait Hover Effects */
+        const portraitArea = document.getElementById('portraitArea');
+        portraitArea.addEventListener('mouseenter', () => {
+            for(let i=0; i<8; i++) {
+                createMiniHeart();
+            }
+        });
+
+        function createMiniHeart() {
+            const heart = document.createElement('span');
+            heart.className = 'frame-heart';
+            heart.innerHTML = '❤';
+            
+            const mx = (Math.random() * 120 - 60) + 'px';
+            const my = (Math.random() * -120 - 30) + 'px';
+            heart.style.setProperty('--mx', mx);
+            heart.style.setProperty('--my', my);
+            
+            heart.style.left = Math.random() * 140 + 20 + 'px';
+            heart.style.top = Math.random() * 140 + 20 + 'px';
+            
+            portraitArea.appendChild(heart);
+            setTimeout(() => heart.remove(), 1500);
+        }
+
+        /* 5. Candle Extinguish Interaction */
+        function extinguishCandle() {
+            const flame = document.getElementById('cakeFlame');
+            const status = document.getElementById('candleStatus');
+            
+            if(flame.style.opacity !== '0') {
+                flame.style.opacity = '0';
+                status.innerText = "✨ May all your wishes come true! ✨";
+                status.style.color = "#ff4757";
+                status.style.fontWeight = "600";
+                
+                // Burst extra confetti on wish completion
+                for(let i=0; i<50; i++) {
+                    const extraP = new Confetti();
+                    extraP.y = window.innerHeight / 2 + (Math.random()*100 - 50);
+                    extraP.x = window.innerWidth / 2 + (Math.random()*100 - 50);
+                    extraP.speedY = Math.random() * -6 - 2; 
+                    particles.push(extraP);
+                }
+            }
+        }
+    </script>
+</body>
+                                                                       </html>
